@@ -9,7 +9,8 @@ namespace ETicaretBackEnd.Domain.Entities.Common
     public class BaseEntity
     {
         public Guid Id { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate  { get; set; }
+        public DateTime UpdatedDate { get; set; }
         public bool Delete { get; set; }
         public bool IsDeleted () 
         { 
