@@ -15,5 +15,6 @@ namespace ETicaretBackEnd.Domain.Entities.Common
         { 
             return Delete; 
         }
+
     }
 }

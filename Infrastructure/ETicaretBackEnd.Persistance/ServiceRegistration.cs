@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ETicaretBackEnd.Application.Repositories;
+using ETicaretBackEnd.Persistence.Repositories;
 
 namespace ETicaretBackEnd.Persistence
 {
@@ -18,6 +20,12 @@ namespace ETicaretBackEnd.Persistence
         {
             services.AddDbContext<ETicaretDbContext>(options => options.UseSqlServer(Configurations.ConnectionStrings));
             services.AddSingleton<IProductService, ProductService>();
+            services.AddSingleton<ICustomerReadRepository, CustomerReadRepository>();
+            services.AddSingleton<ICustomerWriteRepository, CustomerWriteRepository>();
+            services.AddSingleton<IOrderReadRepository, OrderReadRepository>();
+            services.AddSingleton<IOrderWriteRepository, OrderWriteRepository>();
+            services.AddSingleton<IProductReadRepository, ProductReadRepository>();
+            services.AddSingleton<IProductWriteRepository, ProductWriteRepository>();
         }
     }
 }

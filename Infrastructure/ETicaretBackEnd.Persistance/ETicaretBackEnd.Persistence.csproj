@@ -22,8 +22,4 @@
     <ProjectReference Include="..\..\Core\ETicaretBackEnd.Application\ETicaretBackEnd.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>
