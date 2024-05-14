@@ -1,8 +1,11 @@
 ﻿using ETicaretBackEnd.Application.Abstraction;
 using ETicaretBackEnd.Application.Repositories;
+using ETicaretBackEnd.Application.ViewModels.Products;
 using ETicaretBackEnd.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Runtime.CompilerServices;
 
 namespace ETicaretBackEnd.Api.Controllers
 {
@@ -12,36 +15,45 @@ namespace ETicaretBackEnd.Api.Controllers
     {
         private readonly IProductWriteRepository _productWriteRepository;
         private readonly IProductReadRepository _productReadRepository;
-        private readonly IProductService _productService;
 
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository , IProductService productService)
+        public ProductsController(
+            IProductWriteRepository productWriteRepository,
+            IProductReadRepository productReadRepository)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
-            _productService = productService;
         }
 
 
 
-        [HttpGet("get-mock")]
-        public async Task Get()
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            _productWriteRepository.AddAsync(new() { Name ="C Product",  Price = 1.654F, Stock = 123, CreatedDate = DateTime.UtcNow});
+            return Ok(_productReadRepository.GetAll());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(VM_Create_Product model)
+        {
+            await _productWriteRepository.AddAsync(new()
+            {
+                Name = model.Name,
+                Price = model.Price,
+                Stock = model.Stock,
+            });
             await _productWriteRepository.SaveAsync();
+            return StatusCode((int)HttpStatusCode.Created);
         }
 
-        [HttpGet("get-all")]
-        public IActionResult GetProducts()
+        [HttpPut]
+        public async Task<IActionResult> Put(VM_Update_Product model)
         {
-            var products = _productService.GetProducts();
-            return Ok(products);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
-        {
-            Product product = await _productReadRepository.GetByIdAsync(id);
-            return Ok(product);
+            Product product = await _productReadRepository.GetByIdAsync(model.Id);
+            product.Price = model.Price;
+            product.Stock = model.Stock;
+            product.Name = model.Name;
+            await _productWriteRepository.SaveAsync();
+            return Ok();
         }
     }
 }

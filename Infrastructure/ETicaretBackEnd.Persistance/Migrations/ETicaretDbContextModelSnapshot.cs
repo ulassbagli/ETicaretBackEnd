@@ -59,10 +59,7 @@ namespace ETicaretBackEnd.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("CustomerId1")
+                    b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Delete")
@@ -77,9 +74,9 @@ namespace ETicaretBackEnd.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId1");
+                    b.HasIndex("CustomerId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ETicaretBackEnd.Domain.Entities.Product", b =>
@@ -131,7 +128,7 @@ namespace ETicaretBackEnd.Persistence.Migrations
                 {
                     b.HasOne("ETicaretBackEnd.Domain.Entities.Customer", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerId1")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
